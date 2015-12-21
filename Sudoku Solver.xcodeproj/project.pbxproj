@@ -14,6 +14,7 @@
 		AF3F5AB91C27BE0F00D1DBEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF3F5AB71C27BE0F00D1DBEF /* LaunchScreen.storyboard */; };
 		AF3F5AC41C27BE0F00D1DBEF /* Sudoku_SolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5AC31C27BE0F00D1DBEF /* Sudoku_SolverTests.swift */; };
 		AF3F5ACF1C27BE0F00D1DBEF /* Sudoku_SolverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5ACE1C27BE0F00D1DBEF /* Sudoku_SolverUITests.swift */; };
+		AF3F5ADD1C27BEEC00D1DBEF /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3F5ADC1C27BEEC00D1DBEF /* Algorithm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		AF3F5ACA1C27BE0F00D1DBEF /* Sudoku SolverUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sudoku SolverUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF3F5ACE1C27BE0F00D1DBEF /* Sudoku_SolverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sudoku_SolverUITests.swift; sourceTree = "<group>"; };
 		AF3F5AD01C27BE0F00D1DBEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF3F5ADC1C27BEEC00D1DBEF /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			children = (
 				AF3F5AAE1C27BE0F00D1DBEF /* AppDelegate.swift */,
 				AF3F5AB01C27BE0F00D1DBEF /* ViewController.swift */,
+				AF3F5ADC1C27BEEC00D1DBEF /* Algorithm.swift */,
 				AF3F5AB21C27BE0F00D1DBEF /* Main.storyboard */,
 				AF3F5AB51C27BE0F00D1DBEF /* Assets.xcassets */,
 				AF3F5AB71C27BE0F00D1DBEF /* LaunchScreen.storyboard */,
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF3F5AB11C27BE0F00D1DBEF /* ViewController.swift in Sources */,
+				AF3F5ADD1C27BEEC00D1DBEF /* Algorithm.swift in Sources */,
 				AF3F5AAF1C27BE0F00D1DBEF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
