@@ -9,10 +9,10 @@
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet weak var grid01: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Sudoku()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -22,9 +22,12 @@ class ViewController: UIViewController {
     }
     
     func Sudoku() {
-       
+        var solve = Algorithm()
+        
+    
     }
-
+    
+    
 
 }
 

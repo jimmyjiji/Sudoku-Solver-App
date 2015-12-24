@@ -13,17 +13,57 @@ class Algorithm {
     var rowArray : [Int]
     var colArray : [Int]
     var gridArray : [Int]
-    var candidatesArray : [Int]
+    var sudokupuzzle = [[0,0,6,8,0,0,5,0,0], [0,8,0,0,6,1,0, 2,0], [5,0,0,0,3,0,0,0,7], [0,4,0,3,1,7,0,0,5], [0,9,8,4,0,6,3,7,0], [7,0,0,2,9,8,0,4,0], [8,0,0,0,4,0,0,0,9], [0,3,0,6,2,0,0,1,0], [0,0,5,0,0,9,6,0,0]]
+    var finished = false
     
     init() {
-        rowArray = [0]
-        colArray = [0]
-        gridArray = [0]
-        candidatesArray = [0]
+        print("Algorithm Started")
+        rowArray = [0,0,0,0,0,0,0,0,0]
+        colArray = [0,0,0,0,0,0,0,0,0]
+        gridArray = [0,0,0,0,0,0,0,0,0]
+        SudokuSolver(sudokupuzzle, row: 0, col: -1)
+    }
+    
+    init(board: [[Int]]) {
+        sudokupuzzle = board
+        print("Algorithm Started")
+        rowArray = [0,0,0,0,0,0,0,0,0]
+        colArray = [0,0,0,0,0,0,0,0,0]
+        gridArray = [0,0,0,0,0,0,0,0,0]
+        SudokuSolver(sudokupuzzle, row: 0, col: -1)
     }
     
     deinit {
-        print("Popped candidates off stack")
+        print("Algorithm Finished")
+    }
+    
+    func SudokuSolver(var board: [[Int]], var row: Int, var col: Int) {
+        if (isSolution(row, col:col)) {
+            printSolution(board)
+            finished = true
+        } else {
+            col += 1
+            if (col > 8) {
+                row += 1
+                col = 0
+            }
+            
+            if (board[row][col] != 0) {
+                SudokuSolver(board, row: row, col: col)
+            } else {
+                //There's no stopping condition. It just keeps going through candidate lists for some reason. 
+                var stackCandidates: [Int] = [0,0,0,0,0,0,0,0,0]
+                let candidateLength: Int = constructCandidates(board, row: row, col: col, candidates: &stackCandidates)
+                for (var i = 0; i < candidateLength; i++) {
+                    board[row][col] = stackCandidates[i]
+                    SudokuSolver(board, row: row, col: col)
+                    board[row][col] = 0
+                    if (finished) {
+                        return
+                    }
+                }
+            }
+        }
     }
     
     func isSolution(row: Int, col: Int) -> Bool {
@@ -40,7 +80,7 @@ class Algorithm {
         }
     }
     
-    func constructCandidates(board: [[Int]], row: Int, col: Int, candidates: [Int]) -> Int{
+    func constructCandidates(board: [[Int]], row: Int, col: Int, inout candidates: [Int]) -> Int{
         var count = 0
         
         rowSet(board, row: row)
@@ -49,15 +89,15 @@ class Algorithm {
         
         for (var i = 1; i <= 9; i++) {
             if (searchArray(rowArray, n: i)) {
-                break
+                continue
             }
             if (searchArray(colArray, n: i)) {
-                break
+                continue
             }
             if (searchArray(gridArray, n: i)) {
-                break
+                continue
             }
-            candidatesArray[count] = i
+            candidates[count] = i
             count++
             
         }
