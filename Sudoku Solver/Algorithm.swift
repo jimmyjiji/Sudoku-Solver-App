@@ -13,15 +13,18 @@ class Algorithm {
     var rowArray : [Int]
     var colArray : [Int]
     var gridArray : [Int]
-    var sudokupuzzle = [[0,0,6,8,0,0,5,0,0], [0,8,0,0,6,1,0, 2,0], [5,0,0,0,3,0,0,0,7], [0,4,0,3,1,7,0,0,5], [0,9,8,4,0,6,3,7,0], [7,0,0,2,9,8,0,4,0], [8,0,0,0,4,0,0,0,9], [0,3,0,6,2,0,0,1,0], [0,0,5,0,0,9,6,0,0]]
+    var sudokupuzzle = [[3,0,6,8,0,0,5,0,0], [0,8,0,0,6,1,0,2,0], [5,0,0,0,3,0,0,0,7], [0,4,0,3,1,7,0,0,5], [0,9,8,4,0,6,3,7,0], [7,0,0,2,9,8,0,4,0], [8,0,0,0,4,0,0,0,9], [0,3,0,6,2,0,0,1,0], [0,0,5,0,0,9,6,0,0]]
+    var sudokupuzzle1 = [[9,0,6,0,7,0,4,0,3], [0,0,0,4,0,0,2,0,0], [0,7,0,0,2,3,0,1,0], [5,0,0,0,0,0,1,0,0] , [0,4,0,2,0,8,0,6,0], [0,0,3,0,0,0,0,0,5], [0,3,0,7,0,0,0,5,0], [0,0,7,0,0,5,0,0,0], [4,0,5,0,1,0,7,0,8]]
     var finished = false
+    var testCandidates = [0,0,0,0,0,0,0,0,0]
     
     init() {
         print("Algorithm Started")
         rowArray = [0,0,0,0,0,0,0,0,0]
         colArray = [0,0,0,0,0,0,0,0,0]
         gridArray = [0,0,0,0,0,0,0,0,0]
-        SudokuSolver(sudokupuzzle, row: 0, col: -1)
+        SudokuSolver(sudokupuzzle1, row: 0, col: -1)
+        //constructCandidates(sudokupuzzle, row: 0, col: 8, candidates: &testCandidates)
     }
     
     init(board: [[Int]]) {
@@ -51,7 +54,6 @@ class Algorithm {
             if (board[row][col] != 0) {
                 SudokuSolver(board, row: row, col: col)
             } else {
-                //There's no stopping condition. It just keeps going through candidate lists for some reason. 
                 var stackCandidates: [Int] = [0,0,0,0,0,0,0,0,0]
                 let candidateLength: Int = constructCandidates(board, row: row, col: col, candidates: &stackCandidates)
                 for (var i = 0; i < candidateLength; i++) {
@@ -74,15 +76,22 @@ class Algorithm {
         print("Solution:")
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
-                print(board[i][j])
+                print(board[i][j], terminator: "")
             }
             print("\n")
         }
     }
     
+    func clearArrays() {
+        rowArray = [0,0,0,0,0,0,0,0,0]
+        colArray = [0,0,0,0,0,0,0,0,0]
+        gridArray = [0,0,0,0,0,0,0,0,0]
+    }
+    
     func constructCandidates(board: [[Int]], row: Int, col: Int, inout candidates: [Int]) -> Int{
         var count = 0
         
+        clearArrays()
         rowSet(board, row: row)
         colSet(board, col: col)
         gridSet(board, row: row, col: col)
