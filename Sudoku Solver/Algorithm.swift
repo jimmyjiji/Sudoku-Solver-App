@@ -18,28 +18,44 @@ class Algorithm {
     var finished = false
     var testCandidates = [0,0,0,0,0,0,0,0,0]
     
+    
+    /**
+     This constructor is a constructor that runs the algorithm on a sample sudoku puzzle
+    */
     init() {
         print("Algorithm Started")
-        rowArray = [0,0,0,0,0,0,0,0,0]
-        colArray = [0,0,0,0,0,0,0,0,0]
-        gridArray = [0,0,0,0,0,0,0,0,0]
+        rowArray = Array(count: 9, repeatedValue: 0)
+        colArray = Array(count: 9, repeatedValue: 0)
+        gridArray = Array(count: 9, repeatedValue: 0)
         SudokuSolver(sudokupuzzle1, row: 0, col: -1)
-        //constructCandidates(sudokupuzzle, row: 0, col: 8, candidates: &testCandidates)
+        constructCandidates(sudokupuzzle, row: 0, col: 8, candidates: &testCandidates)
     }
     
+    /**
+     This constructor is a constructor that runs the algorithm on the parameter
+    */
     init(board: [[Int]]) {
         sudokupuzzle = board
         print("Algorithm Started")
-        rowArray = [0,0,0,0,0,0,0,0,0]
-        colArray = [0,0,0,0,0,0,0,0,0]
-        gridArray = [0,0,0,0,0,0,0,0,0]
+        rowArray = Array(count: 9, repeatedValue: 0)
+        colArray = Array(count: 9, repeatedValue: 0)
+        gridArray = Array(count: 9, repeatedValue: 0)
         SudokuSolver(sudokupuzzle, row: 0, col: -1)
     }
     
+    /**
+     Prints "Algorithm FInished" when the class is deintiliazed.
+    */
     deinit {
         print("Algorithm Finished")
     }
     
+    /**
+     Main algorithm that solves a board intialized with sudoku numbers with 0 in the empty spaces
+     board: sudoku grid
+     row: row number algorithm is on
+     col: column number algorithm is on
+    */
     func SudokuSolver(var board: [[Int]], var row: Int, var col: Int) {
         if (isSolution(row, col:col)) {
             printSolution(board)
@@ -54,7 +70,7 @@ class Algorithm {
             if (board[row][col] != 0) {
                 SudokuSolver(board, row: row, col: col)
             } else {
-                var stackCandidates: [Int] = [0,0,0,0,0,0,0,0,0]
+                var stackCandidates: [Int] = Array(count: 9, repeatedValue: 0)
                 let candidateLength: Int = constructCandidates(board, row: row, col: col, candidates: &stackCandidates)
                 for (var i = 0; i < candidateLength; i++) {
                     board[row][col] = stackCandidates[i]
@@ -68,10 +84,19 @@ class Algorithm {
         }
     }
     
+    /**
+     Checks if the algorith is at the end of the board 
+     row: row number algorithm is on
+     col: column number algorithm is on
+    */    
     func isSolution(row: Int, col: Int) -> Bool {
         return (row == 8 && col == 8)
     }
     
+    /**
+     Prints the board solution. 
+     Primarily used for debugging
+    */
     func printSolution(board: [[Int]]) {
         print("Solution:")
         for (var i = 0; i < 9; i++) {
@@ -82,12 +107,25 @@ class Algorithm {
         }
     }
     
+    /**
+     Resets the arrays
+    */
     func clearArrays() {
-        rowArray = [0,0,0,0,0,0,0,0,0]
-        colArray = [0,0,0,0,0,0,0,0,0]
-        gridArray = [0,0,0,0,0,0,0,0,0]
+        rowArray = Array(count: 9, repeatedValue: 0)
+        colArray = Array(count: 9, repeatedValue: 0)
+        gridArray = Array(count: 9, repeatedValue: 0)
     }
     
+    /**
+     Constructs individual candidates per row/col it is currently on. Essentially at every position
+     on the board, there can only be a certain number of valid values that can be in that position.
+     Calls multipler helper methods to create candidates
+     
+     board: The sudoku puzzle method is working on
+     row: row number algorithm is on
+     col: column number algorithm is on
+     return: Int value for amount of candidates
+     */
     func constructCandidates(board: [[Int]], row: Int, col: Int, inout candidates: [Int]) -> Int{
         var count = 0
         
@@ -113,7 +151,12 @@ class Algorithm {
         
         return count
     }
-    
+    /**
+     Searches array for n
+     set: array to search for
+     n: value to search for
+     return: returns if that n is in the set
+     */
     func searchArray(set: [Int], n: Int) -> Bool {
         for (var i = 0; i < set.count; i++) {
             if (set[i] == n) {
@@ -123,6 +166,25 @@ class Algorithm {
         return false
     }
     
+    /**
+     Shrinks the array for extra 0 values. 
+     Saves memory
+     set: the reference to the array that we are changing
+    */
+    func shrinkArray(inout set: [Int]) {
+        for (var i = 0; i < set.count; i++) {
+            if (set[i] == 0) {
+                set.removeAtIndex(i)
+            }
+        }
+    }
+    
+    /**
+     creates candidates for the row
+     board: checks the sudoku board for candidates in the row
+     row: the row position the method is run on
+     return: number of candidates
+    */
     func rowSet(board:[[Int]], row: Int) -> Int {
         var count = 0
         for (var i = 0; i < 9; i++) {
@@ -131,9 +193,17 @@ class Algorithm {
                 count++
             }
         }
+        
+        shrinkArray(&rowArray)
         return count
     }
     
+    /**
+     creates candidates for the column
+     board: checks the sudoku board for candidates in the column
+     col: the column position the method is run on
+     return: number of candidates
+     */
     func colSet(board:[[Int]], col: Int) -> Int {
         var count = 0
         for (var i = 0; i < 9; i++) {
@@ -142,9 +212,17 @@ class Algorithm {
                 count++
             }
         }
+        shrinkArray(&colArray)
         return count;
     }
     
+    /**
+     creates candidates for the 3x3 grid
+     board: checks the sudoku board for candidates in the 3x3 grid
+     row: the row position the method is run on
+     col: the column position the method is run on
+     return: number of candidates
+     */
     func gridSet(board:[[Int]], row: Int, col: Int) -> Int{
             let r_start: Int = row / 3 * 3; //Grids start at rows 0,3,6
             let c_start: Int = col / 3 * 3; //Grids start at cols 0,3,6
@@ -157,13 +235,8 @@ class Algorithm {
                     }
                 }
             }
+            shrinkArray(&gridArray)
             return count
     }
-    
-    
-    
-    
-    
-    
     
 }
